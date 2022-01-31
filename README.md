@@ -1,5 +1,4 @@
 # User communication with Socket.IO
-
 ## Running the frontend
 
 ```
