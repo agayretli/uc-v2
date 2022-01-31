@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="modal" v-if="newUser">
+        <a v-on:click="newUser=false" class="close cursor-pointer">✖</a>
+        <p>{{newUserMessage}}</p>
+    </div>
     <div class="left-panel">
       <user
         v-for="user in users"
@@ -23,6 +27,8 @@ export default {
     return {
       selectedUser: null,
       users: [],
+      newUser:false,
+      newUserMessage:''
     };
   },
   methods: {
@@ -69,6 +75,8 @@ export default {
     });
 
     socket.on("user connected", (user) => {
+      this.newUser = true;
+      this.newUserMessage = "Connected user's username: " + user.username;
       for (let i = 0; i < this.users.length; i++) {
         const existingUser = this.users[i];
         if (existingUser.userID === user.userID) {
@@ -109,5 +117,34 @@ export default {
   overflow-x: hidden;
   background-color: #3f0e40;
   color: white;
+}
+
+.modal{
+  z-index: 9999;
+  position:absolute;
+  left:50%;
+  margin-left:-250px;
+  top:50%;
+  margin-top:-100px;
+  background:white;
+  width:500px;
+  height:200px;
+  text-align:center;
+  box-shadow: 0px 0px 0px 1920px rgba(0,0,0,0.75);
+}
+
+.modal a.close{
+  position:absolute;
+  right:15px;
+  top:10px;
+}
+
+.modal p{
+  margin:0;
+  line-height:200px;
+}
+
+.cursor-pointer{
+  cursor:pointer;
 }
 </style>
